@@ -1,6 +1,7 @@
 from selenium import webdriver
 from selenium.webdriver import ChromeOptions
 from selenium.webdriver.common.by import By
+from selenium.webdriver.support.ui import Select
 from time import sleep
 
 # to prevent the browser from closing automatically after the script finishes executing
@@ -21,11 +22,13 @@ driver.find_element(By.XPATH, '//*[@id="login-button"]').click()
 sleep(3)
 
 # click select-option filter
-driver.find_element(By.CLASS_NAME, "product_sort_container").click()
-driver.find_element(By.XPATH, '//*[@id="header_container"]/div[2]/div/span/select/option[4]').click()
+select_option = Select(driver.find_element(By.CLASS_NAME, "product_sort_container"))
+select_option.select_by_value('hilo')
 
 # find all button (add-to-cart)
-buttons_add_to_cart = driver.find_elements(By.CSS_SELECTOR, '.btn.btn_primary.btn_small.btn_inventory')
+buttons_add_to_cart = driver.find_elements(By.XPATH, '//button[@class="btn btn_primary btn_small btn_inventory "]')
+
+print(buttons_add_to_cart)
 
 # get max 3 item or less
 item_to_add_to_cart = 3 if len(buttons_add_to_cart) > 3 else len(buttons_add_to_cart)
